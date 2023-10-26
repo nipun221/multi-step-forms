@@ -181,8 +181,8 @@
 .progressbar-wrapper {
     align-items: center;
     flex-direction: column;
-    margin-top: -100px;
-    margin-left: 510px;
+    margin-top: -50px;
+    margin-left: 290px;
 }
 
 @media (max-width: 600px) {
@@ -434,30 +434,32 @@
         <div class="card">
             <h2>Name</h2>
             <p class="form-text">Bitte hinterlasse uns deinen Namen, damit wir dich kontaktieren können.</p>
-            <div class="form-box">
-                <div class="input-div">
-                    <input class="input-class" type="text" id="firstname" name="firstname" placeholder="Vorname" required>
+            <form>
+                <div class="form-box">
+                    <div class="input-div">
+                        <input class="input-class" type="text" id="firstname" name="firstname" placeholder="Vorname" required>
+                    </div>
+                    <div class="input-div">
+                        <input class="input-class" type="text" id="lastname" name="lastname" placeholder="Nachname" required>
+                    </div>
                 </div>
-                <div class="input-div">
-                    <input class="input-class" type="text" id="lastname" name="lastname" placeholder="Nachname" required>
-                </div>
-            </div>
-            <div class="button-strip">
-                <button class="btn-class-name-prev btn-prev">
-                    <svg viewBox="0 0 320 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z">
-                    </path>
-                    </svg>
-                    <span>ZURUCK</span>
-                </button>
-                <button class="btn-class-name btn-next">
-                    <span>WEITER</span>
-                    <svg viewBox="0 0 320 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+                <div class="button-strip">
+                    <button class="btn-class-name-prev btn-prev">
+                        <svg viewBox="0 0 320 512" height="1em" xmlns="http://www.w3.org/2000/svg">
                         <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z">
-                    </path>
-                    </svg>
-                </button>
-            </div>
+                        </path>
+                        </svg>
+                        <span>ZURUCK</span>
+                    </button>
+                    <button class="btn-class-name btn-next" id="next-button">
+                        <span>WEITER</span>
+                        <svg viewBox="0 0 320 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z">
+                        </path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -525,7 +527,7 @@
             <h2>Thankyou</h2>
             <p class="form-text">Bitte hinterlasse uns deine Telefonnummer, damit wir dich kontaktieren können.</p>
             <div class="form-box">
-                <img src="https://img.freepik.com/free-vector/thank-you-concept-illustration_114360-12887.jpg?w=740&t=st=1698252852~exp=1698253452~hmac=4345e36c7cf3dfdf5b70c918d3337be362ff5a2bd130a6e83df1a54e10080d3e">
+                <img src="https://user-images.githubusercontent.com/98182168/278421732-6f332bb7-b0e7-42de-8870-93ad9ea1534b.png" height='190px'>
             </div>
         </div>
     </section>
@@ -543,24 +545,80 @@
         </div>
     </section>
     
-    <script>const prevBtns = document.querySelectorAll(".btn-prev");
+    <script>
+        // HTML form elements
+        const prevBtns = document.querySelectorAll(".btn-prev");
         const nextBtns = document.querySelectorAll(".btn-next");
         const progress = document.querySelector(".progress");
         const formSteps = document.querySelectorAll(".form-step");
         const progressSteps = document.querySelectorAll(".progress-step");
-        
+
         let formStepsNum = 0;
-        
-        /* Event Listener for Next Button. */
+
+        // Event Listener for Next Button.
         nextBtns.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                formStepsNum++;
-                updateFormSteps();
-                updateProgressbar();
+            btn.addEventListener("click", (e) => {
+                e.preventDefault(); // Prevent the form from submitting and the page from refreshing.
+        
+                if (formStepsNum === 3) {
+                    if (validateNameInputs()) {
+                        formStepsNum = 4; // Move to the next step.
+                        updateFormSteps();
+                        updateProgressbar();
+                    } else {
+                        alert("Please fill in either the first name or the last name.");
+                    }
+                } else if (formStepsNum === 4) {
+                    if (validateEmailInput()) {
+                        formStepsNum = 5; // Move to the next step.
+                        updateFormSteps();
+                        updateProgressbar();
+                    } else {
+                        alert("Please fill in the email field.");
+                    }
+                } else if (formStepsNum === 5) {
+                    if (validateNumberInput()) {
+                        formStepsNum = 6; // Move to the next step.
+                        updateFormSteps();
+                        updateProgressbar();
+                    } else {
+                        alert("Please fill in the number field.");
+                    }
+                } else {
+                    // Only increase formStepsNum if none of the conditions were met.
+                    formStepsNum++;
+                    updateFormSteps();
+                    updateProgressbar();
+                }
             });
         });
         
-        /* Event Listener for Back Button. */
+
+        // Function to validate the name inputs.
+        function validateNameInputs() {
+            const firstnameInput = document.getElementById("firstname");
+            const lastnameInput = document.getElementById("lastname");
+            const firstnameValue = firstnameInput.value.trim();
+            const lastnameValue = lastnameInput.value.trim();
+
+            return firstnameValue !== "" || lastnameValue !== "";
+        }
+
+        function validateEmailInput() {
+            const emailInput = document.getElementById("email");
+            const emailValue = emailInput.value.trim();
+
+            return emailValue !== "";
+        }
+
+        function validateNumberInput() {
+            const numberInput = document.getElementById("number");
+            const numberValue = numberInput.value.trim();
+
+            return numberValue !== "";
+        }
+
+        // Event Listener for Back Button.
         prevBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
                 formStepsNum--;
@@ -568,32 +626,28 @@
                 updateProgressbar();
             });
         });
-        
-        /* Updates Form Items */
+
+        // Updates Form Items
         function updateFormSteps() {
             formSteps.forEach((formStep) => {
                 formStep.classList.contains("centered-card-active") &&
-                formStep.classList.remove("centered-card-active")
-            })
+                    formStep.classList.remove("centered-card-active");
+            });
             formSteps[formStepsNum].classList.add("centered-card-active");
         }
-        
-        /* Updates Progress Bar */
+
+        // Updates Progress Bar
         function updateProgressbar() {
             progressSteps.forEach((progressStep, index) => {
-                if ( index < formStepsNum + 1 ) {
-                    progressStep.classList.add('progress-step-active')
+                if (index < formStepsNum + 1) {
+                    progressStep.classList.add('progress-step-active');
                 } else {
-                    progressStep.classList.remove('progress-step-active')
+                    progressStep.classList.remove('progress-step-active');
                 }
-            })
+            });
             progress.style.width = ((formStepsNum) / (progressSteps.length - 1)) * 100 + "%";
         }
-        
-        
-        
-        </script>
+    </script>
 </body>
 </html>
-
 
