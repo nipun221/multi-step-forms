@@ -65,7 +65,7 @@
     outline: none;
     display: flex;
     align-items: center;
-    padding: .5em 1em;
+    padding: .5em;
 }
 
 .btn-class-name-prev span {
@@ -171,31 +171,24 @@
 }
 
 .button-strip {
+    position: relative;
     display: flex;
     justify-content: space-between;
-    background-color: #011E40;
+    background-color: #fea201;
     margin: -20px;
+}
+.first {
+    justify-content: flex-end;
 }
 
 /* progress bar */
 .progressbar-wrapper {
+    display: flex;
     align-items: center;
     flex-direction: column;
     margin-top: -50px;
-    margin-left: 290px;
 }
 
-@media (max-width: 600px) {
-    .progressbar-wrapper {
-        display: none;
-    }
-}
-
-@media (max-width: 1024px) {
-    .progressbar-wrapper {
-        margin-left: 0;
-    }
-}
 
 .progressbar {
     position: relative;
@@ -203,7 +196,7 @@
     justify-content: space-between;
     counter-reset: step;
     margin: 2rem 0 4rem;
-    max-width: 500px;
+    width: 500px;
 }
 .progressbar::before, .progress {
     content: "";
@@ -245,7 +238,7 @@
     color: #666;
 }
 .progress-step-active {
-    background-color: #011E40;
+    background-color: #fea201;
     color: #f3f3f3;
 }
 
@@ -287,10 +280,19 @@
     margin-bottom: 25px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
+.goog-te-gadget {
+    font-family: arial;
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+    position: fixed;
+    top: 0;
 
     </style>
 </head>
 <body>
+
+<div id="google_translate_element">
 
     <!-- Dein Berufsstatus? -->
     <section class="form-step centered-card centered-card-active">
@@ -324,19 +326,12 @@
                 <label for="unemployed">
                     <div class="radio-box">
                         <input type="radio" id="unemployed" name="berufsstatus" value="unemployed">
-                        <img src="https://eu-files.jotform.com/jufs/samplett/form_files/1.62f629e29ccaf9.94615851.png?md5=SfGVdR1exGt-bgQmgmTtkA&expires=1698231528" alt="Student Icon">
-                        student:in
+                        <img src="https://i.pinimg.com/564x/a5/5f/e6/a55fe60c8ec337166bcc850771ac2058.jpg" alt="Student Icon">
+                        Angestellter:in
                     </div>
                 </label>
             </div>
-            <div class="button-strip">
-                <button class="btn-class-name-prev">
-                    <svg viewBox="0 0 320 512" height="1em" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z">
-                    </path>
-                    </svg>
-                    <span>ZURUCK</span>
-                </button>
+            <div class="button-strip first">
                 <button class="btn-class-name btn-next">
                     <span>WEITER</span>
                     <svg viewBox="0 0 320 512" height="1em" xmlns="http://www.w3.org/2000/svg">
@@ -437,10 +432,10 @@
             <form>
                 <div class="form-box">
                     <div class="input-div">
-                        <input class="input-class" type="text" id="firstname" name="firstname" placeholder="Vorname" required>
+                        <input class="input-class" type="text" id="firstname" name="firstname" placeholder="Vorname" required oninput="allowAlphabets(this)">
                     </div>
                     <div class="input-div">
-                        <input class="input-class" type="text" id="lastname" name="lastname" placeholder="Nachname" required>
+                        <input class="input-class" type="text" id="lastname" name="lastname" placeholder="Nachname" required oninput="allowAlphabets(this)">
                     </div>
                 </div>
                 <div class="button-strip">
@@ -470,7 +465,7 @@
             <p class="form-text">Bitte hinterlasse uns deine E-Mail, damit wir dich kontaktieren können.</p>
             <div class="form-box">
                 <div class="input-div">
-                    <input class="input-class" type="text" id="email" name="email" placeholder="Email" required>
+                    <input class="input-class" type="email" id="email" name="email" placeholder="Email" required>
                 </div>
             </div>
             <div class="button-strip">
@@ -499,7 +494,7 @@
             <p class="form-text">Bitte hinterlasse uns deine Telefonnummer, damit wir dich kontaktieren können.</p>
             <div class="form-box">
                 <div class="input-div">
-                    <input class="input-class" type="phone2numeric" id="number" name="number" placeholder="Telefonnummer" required>
+                    <input class="input-class" type="phone2numeric" id="number" name="number" placeholder="Telefonnummer" required oninput="allowNumbers(this)">
                 </div>
             </div>
             <div class="button-strip">
@@ -533,6 +528,11 @@
     </section>
 
     <!-- Progress Bar  -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'en'}, 'google_translate_element');
+        }
+    </script>
     <section class="progressbar-wrapper">
         <div class="progressbar">
             <div class="progress" id="progress"></div>
@@ -544,110 +544,117 @@
             <div class="progress-step" title="Telefonnummer"></div>
         </div>
     </section>
+</div>
+<script>
+    // HTML form elements
+    const prevBtns = document.querySelectorAll(".btn-prev");
+    const nextBtns = document.querySelectorAll(".btn-next");
+    const progress = document.querySelector(".progress");
+    const formSteps = document.querySelectorAll(".form-step");
+    const progressSteps = document.querySelectorAll(".progress-step");
+
+    let formStepsNum = 0;
+
+    // Event Listener for Next Button.
+    nextBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent the form from submitting and the page from refreshing.
     
-    <script>
-        // HTML form elements
-        const prevBtns = document.querySelectorAll(".btn-prev");
-        const nextBtns = document.querySelectorAll(".btn-next");
-        const progress = document.querySelector(".progress");
-        const formSteps = document.querySelectorAll(".form-step");
-        const progressSteps = document.querySelectorAll(".progress-step");
-
-        let formStepsNum = 0;
-
-        // Event Listener for Next Button.
-        nextBtns.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault(); // Prevent the form from submitting and the page from refreshing.
-        
-                if (formStepsNum === 3) {
-                    if (validateNameInputs()) {
-                        formStepsNum = 4; // Move to the next step.
-                        updateFormSteps();
-                        updateProgressbar();
-                    } else {
-                        alert("Please fill in either the first name or the last name.");
-                    }
-                } else if (formStepsNum === 4) {
-                    if (validateEmailInput()) {
-                        formStepsNum = 5; // Move to the next step.
-                        updateFormSteps();
-                        updateProgressbar();
-                    } else {
-                        alert("Please fill in the email field.");
-                    }
-                } else if (formStepsNum === 5) {
-                    if (validateNumberInput()) {
-                        formStepsNum = 6; // Move to the next step.
-                        updateFormSteps();
-                        updateProgressbar();
-                    } else {
-                        alert("Please fill in the number field.");
-                    }
-                } else {
-                    // Only increase formStepsNum if none of the conditions were met.
-                    formStepsNum++;
+            if (formStepsNum === 3) {
+                if (validateNameInputs()) {
+                    formStepsNum = 4; // Move to the next step.
                     updateFormSteps();
                     updateProgressbar();
+                } else {
+                    alert("Please enter the firstname and lastname.");
                 }
-            });
-        });
-        
-
-        // Function to validate the name inputs.
-        function validateNameInputs() {
-            const firstnameInput = document.getElementById("firstname");
-            const lastnameInput = document.getElementById("lastname");
-            const firstnameValue = firstnameInput.value.trim();
-            const lastnameValue = lastnameInput.value.trim();
-
-            return firstnameValue !== "" || lastnameValue !== "";
-        }
-
-        function validateEmailInput() {
-            const emailInput = document.getElementById("email");
-            const emailValue = emailInput.value.trim();
-
-            return emailValue !== "";
-        }
-
-        function validateNumberInput() {
-            const numberInput = document.getElementById("number");
-            const numberValue = numberInput.value.trim();
-
-            return numberValue !== "";
-        }
-
-        // Event Listener for Back Button.
-        prevBtns.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                formStepsNum--;
+            } else if (formStepsNum === 4) {
+                if (validateEmailInput()) {
+                    formStepsNum = 5; // Move to the next step.
+                    updateFormSteps();
+                    updateProgressbar();
+                } else {
+                    alert("Please fill in the email field.");
+                }
+            } else if (formStepsNum === 5) {
+                if (validateNumberInput()) {
+                    formStepsNum = 6; // Move to the next step.
+                    updateFormSteps();
+                    updateProgressbar();
+                } else {
+                    alert("Please fill in the number field.");
+                }
+            } else {
+                // Only increase formStepsNum if none of the conditions were met.
+                formStepsNum++;
                 updateFormSteps();
                 updateProgressbar();
-            });
+            }
         });
+    });
+    
 
-        // Updates Form Items
-        function updateFormSteps() {
-            formSteps.forEach((formStep) => {
-                formStep.classList.contains("centered-card-active") &&
-                    formStep.classList.remove("centered-card-active");
-            });
-            formSteps[formStepsNum].classList.add("centered-card-active");
-        }
+    // Function to validate the name inputs.
+    function validateNameInputs() {
+        const firstnameInput = document.getElementById("firstname");
+        const lastnameInput = document.getElementById("lastname");
+        const firstnameValue = firstnameInput.value.trim();
+        const lastnameValue = lastnameInput.value.trim();
 
-        // Updates Progress Bar
-        function updateProgressbar() {
-            progressSteps.forEach((progressStep, index) => {
-                if (index < formStepsNum + 1) {
-                    progressStep.classList.add('progress-step-active');
-                } else {
-                    progressStep.classList.remove('progress-step-active');
-                }
-            });
-            progress.style.width = ((formStepsNum) / (progressSteps.length - 1)) * 100 + "%";
-        }
-    </script>
+        return firstnameValue !== "" || lastnameValue !== "";
+    }
+
+    function validateEmailInput() {
+        const emailInput = document.getElementById("email");
+        const emailValue = emailInput.value.trim();
+
+        return emailValue !== "";
+    }
+
+    function validateNumberInput() {
+        const numberInput = document.getElementById("number");
+        const numberValue = numberInput.value.trim();
+
+        return numberValue !== "";
+    }
+
+    // Event Listener for Back Button.
+    prevBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            formStepsNum--;
+            updateFormSteps();
+            updateProgressbar();
+        });
+    });
+
+    // Updates Form Items
+    function updateFormSteps() {
+        formSteps.forEach((formStep) => {
+            formStep.classList.contains("centered-card-active") &&
+                formStep.classList.remove("centered-card-active");
+        });
+        formSteps[formStepsNum].classList.add("centered-card-active");
+    }
+
+    // Updates Progress Bar
+    function updateProgressbar() {
+        progressSteps.forEach((progressStep, index) => {
+            if (index < formStepsNum + 1) {
+                progressStep.classList.add('progress-step-active');
+            } else {
+                progressStep.classList.remove('progress-step-active');
+            }
+        });
+        progress.style.width = ((formStepsNum) / (progressSteps.length - 1)) * 100 + "%";
+    }
+    function allowAlphabets(input) {
+        input.value = input.value.replace(/[^A-Za-z]/g, '');
+    }
+    function allowNumbers(input) {
+        input.value = input.value.replace(/[^0-9]/g, '');
+    }            
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
 </body>
 </html>
 
