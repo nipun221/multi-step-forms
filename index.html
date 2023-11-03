@@ -111,7 +111,7 @@
     max-width: 700px;
     width: 100%;
     position: relative;
-    overflow:auto;
+    overflow: auto;
     border-radius: 10px;
 }
 
@@ -294,22 +294,64 @@
     top: 0;
 }
 
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 685px) {
     .pricing {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
         align-items: center;
     }
     .progressbar-wrapper {
         display: none;
     }
     .centered-card {
-        height: 142vh;
+        height: auto;
         margin-top: 0;
+        align-items: flex-start;
+        padding: 40px;
     }
+    .input-div input {
+        width: 70%;
+        padding: 15px;
+        font-size: 15px;
+    }
+    .form-box {
+        display: flex;
+        height: 130px;
+        flex-direction: column;
+        margin-bottom: 60px;
+    }
+    .card {
+        text-align: -webkit-center;
+    }
+    .button-strip {
+        height: 70px;
+    }
+    .btn-class-name {
+        font-size: xx-large;
+    }
+    .btn-class-name-prev {
+        font-size: xx-large;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .radio-box img {
+        margin-top: 10px;
+    }
+    .radio-box {
+        width: 100px;
+        height: 100px;
+        font-size: smaller;
+    }
+}
+
+.scroll-bar {
+    overflow: hidden;
 }
     </style>
 </head>
-<body>
+<body class="scroll-bar">
 
 <div id="google_translate_element">
 
